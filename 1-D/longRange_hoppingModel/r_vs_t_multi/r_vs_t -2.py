@@ -46,13 +46,13 @@ t = 100
 #sigma_array = np.linspace(0,16,9)
 sigma_array = np.array([0.5,2.0,2.7,3.0,3.5,4.0,8.0])
 print(sigma_array)
-t_array = np.logspace(0,6,20)
+t_array = np.logspace(0,6,10)
 for sigma in sigma_array:
     avgr_array = np.array([])
     print(sigma)
     for t in t_array:
         print(t)
-        loop = 100
+        loop = 10
         avg_avgr = 0
         for l in range(loop):
             matrix = np.zeros((n,n))
@@ -99,13 +99,13 @@ for sigma in sigma_array:
                 sorted_eigval[i] = float(temp)
             level_spacing = np.array([])
             sorted_eigval = np.sort(sorted_eigval)
-            for i in range(len(sorted_eigval)-1):
-                level_spacing = np.append(level_spacing,sorted_eigval[i+1]-sorted_eigval[i])
+            for i in range(len(sorted_eigval)-2):
+                level_spacing = np.append(level_spacing,sorted_eigval[i+2]-sorted_eigval[i])
                 #print(level_spacing[-1])
 
             rn = np.array([])
 
-            for i in range(len(sorted_eigval)-2) :
+            for i in range(len(sorted_eigval)-3) :
                 temp = min(level_spacing[i],level_spacing[i+1])/max(level_spacing[i],level_spacing[i+1])
                 if not np.isnan(temp):
                     rn = np.append(rn,temp)
@@ -115,11 +115,11 @@ for sigma in sigma_array:
         avgr = avg_avgr/loop
         avgr_array = np.append(avgr_array,avgr)
     plt.plot(t_array,avgr_array,label=f"{sigma}")
-    np.savetxt(f"sigma_{sigma}.txt", avgr_array, delimiter=',')
-np.savetxt('t_array.txt', t_array, delimiter=',')
+    np.savetxt(f"sigma_{sigma}-2.txt", avgr_array, delimiter=',')
+np.savetxt('t_array-2.txt', t_array, delimiter=',')
 plt.xlabel("time (t)")
 plt.ylabel("<r>")
 plt.legend(title="sigma", loc='upper left',bbox_to_anchor=(1, 0.75))
 plt.xscale("log")
-plt.savefig("res.png", bbox_inches="tight")
+plt.savefig("res-2.png", bbox_inches="tight")
 #plt.show()
