@@ -10,8 +10,10 @@ import sympy as sp
 from sympy import *
 from sympy.physics.quantum import *
 import scipy.linalg
-
-n = np.array([4,2,5,6,73,345,3])
-n.sort()
-print(n)
+1
+x = np.array([4,2,5,6,73,345,3])
+x = np.sort(x)
+y = x**2
+plt.plot(x,y)
+plt.show()
 #ajfhjshfjkhsfslkjfkj
