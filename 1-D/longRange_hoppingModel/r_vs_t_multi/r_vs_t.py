@@ -23,7 +23,7 @@ def matrix_exp(power_matrix,t):
     #eigval,eigvec = scipy.linalg.eigh(power_matrix,overwrite_a=True,check_finite=True,turbo=True)
     eigval,eigvec = np.linalg.eig(power_matrix)
     #print(eigval)
-    eigvec_inv = np.linalg.inv(eigvec)
+    eigvec_inv = np.transpose(eigvec)
     d = np.zeros((len(eigval),len(eigval)))
     d = d.astype("cdouble")
     for i in range(len(eigval)):
@@ -75,11 +75,11 @@ for sigma in sigma_array:
                         u_ij = 2*(random.random()-0.5)
                         r_ij = float(abs(j-i))
 
-                        if np.power(r_ij,sigma) == 0:
+                        if pow(r_ij,sigma) == 0:
                             t_ij = 0
-                            #print("oof")
+                            print("oof")
                         else:
-                            t_ij = (J * u_ij)/((r_ij)**sigma)
+                            t_ij = (J * u_ij)/(pow(r_ij,sigma))
                             #print(t_ij)
                         matrix[i,j] = t_ij
                         matrix[j,i] = t_ij
@@ -87,16 +87,18 @@ for sigma in sigma_array:
             c_t = c_t[:nF,:nF]
             sorted_eigval = np.linalg.eigvals(c_t)
             #sorted_eigval = np.real(sorted_eigval)
+            indices = []
             for i in range(len(sorted_eigval)):
                 #print(sorted_eigval[i],np.log((1-sorted_eigval[i]/sorted_eigval[i])))
                 #sorted_eigval[i] = float(sorted_eigval[i])
                 if (sorted_eigval[i]) != 0 and (sorted_eigval[i]) != 1:
                     #print(sorted_eigval[i])
                     temp = (np.log(abs((1-(sorted_eigval[i]))/(sorted_eigval[i]))))
+                    sorted_eigval[i] = float(temp)
                 else:
-                    print("oof")
-                    temp = sorted_eigval[i-3]
-                sorted_eigval[i] = float(temp)
+                    indices.append(i)
+            sorted_eigval = np.delete(sorted_eigval,indices)
+                
             level_spacing = np.array([])
             sorted_eigval = np.sort(sorted_eigval)
             for i in range(len(sorted_eigval)-1):
