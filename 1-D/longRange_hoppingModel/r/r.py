@@ -16,7 +16,7 @@ for n in n_array:
     """for i in range(n):
         w = W*(random.random() - 0.5)
         matrix[i,i] = w"""
-    for W in range(100):
+    for W in range(50):
         avgr_array = np.array([])
         for sigma_count in sigma:
             for i in range(n):
@@ -54,10 +54,18 @@ for n in n_array:
         err = np.append(err,np.std(avgr_array_array[:,i])/10)
 
     avgr_array_array = np.mean(avgr_array_array, axis=0)
-    plt.plot(sigma,avgr_array_array,'--',label=f"{n}")
+    plt.plot(sigma,avgr_array_array,'-.',label=f"{n}")
 plt.ylabel('r')
 plt.xlabel('Sigma')
 plt.legend(title="N")
+
+x = np.linspace(0,3,10)
+y = x-x+0.386
+plt.plot(x,y,"k--")
+x = np.linspace(0,3,10)
+y = x-x + 0.529
+plt.plot(x,y,"k--")
+
 #np.savetxt("error.csv", err, delimiter=",")
 #np.savetxt(f"avgr_N={n}.csv", n, delimiter=",")
 #np.savetxt("sigma.csv", sigma, delimiter=",")
