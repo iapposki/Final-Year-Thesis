@@ -1,3 +1,4 @@
+from cProfile import label
 import numpy as np
 import matplotlib.pyplot as plt
 import math
@@ -25,7 +26,7 @@ def prob_density(psi):
     return psi
 
 n = 2048
-sigma = 3
+sigma = 1.5
 matrix = np.zeros((n,n))
 
 initial = np.zeros((n,1))
@@ -42,12 +43,19 @@ for i in range(n):
             t_ij = (J * u_ij)/((r_ij)**sigma)
             matrix[i,j] = t_ij
             matrix[j,i] = t_ij
-t_array = [1,2,10]
+t_array = [10**1,10**2,10**3]
+count = 0
+t_arr = ["$10^1$","$10^2$","$10^3$"]
 for t in t_array:
     n_array = np.linspace(1,n,n)
     density = prob_density(wavefunc_t(matrix,n,initial,t))
-    plt.plot(n_array,density)
+    plt.plot(n_array,density,label=t_arr[count])
+    count += 1
     plt.xlim(800,1300)
+plt.legend(title="Time (t)")
 plt.yscale('log')
+plt.xlabel("i")
+plt.ylabel("$p_i(t)$")
+plt.savefig("pd_1.5.pdf")
 plt.show()
 
