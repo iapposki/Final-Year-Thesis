@@ -80,19 +80,26 @@ def rvW(W_min,W_max,delta,adj,loop,n):
         avgrrange = np.array([])
 
     for i in range(len(avgavgrrange[0,:])):
-        err = np.append(err,np.std(avgavgrrange[:,i])/10)
+        err = np.append(err,np.std(avgavgrrange[:,i])/4)
     finalr = np.mean(avgavgrrange,axis=0)
     W = np.linspace(W_min,W_max,int((W_max-W_min)/delta))
     return W,finalr,err
 
-M = np.array([3,4,5,6,7,8])
+M = np.array([3,4,5,8])
 for m in M:
-    W,finalr,err = rvW(0,25,0.05,cubic_adj(m),20,m)
+    if m ==3:
+        W,finalr,err = rvW(1,40,1,cubic_adj(m),1000,m)
+    elif m == 4:
+        W,finalr,err = rvW(1,40,1,cubic_adj(m),800,m)
+    elif m == 5:
+        W,finalr,err = rvW(1,40,1,cubic_adj(m),500,m)
+    else:
+        W,finalr,err = rvW(1,40,1,cubic_adj(m),100,m)
     print(m)
-    plt.xlabel('W')
-    plt.ylabel('r')
-    plt.ylim(0.2,0.7)
     plt.errorbar(W,finalr,yerr=err,label=f'{m}')
+plt.xlabel('W')
+plt.ylabel('r')
+plt.ylim(0.28,0.6)
 plt.legend(title='Edge Length')
 plt.grid()
 plt.savefig('r_vs_W.pdf')

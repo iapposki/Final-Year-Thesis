@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.linalg
 import random
+# import seaborn
+
 
 
 n_array = [512,1024,2048]
@@ -12,7 +14,7 @@ for n in n_array:
     matrix = np.zeros((n,n))
     J = 1
     avgr_array_array = np.array([])
-    err = []
+    err = np.array([])
     """for i in range(n):
         w = W*(random.random() - 0.5)
         matrix[i,i] = w"""
@@ -51,12 +53,17 @@ for n in n_array:
         print(W)
 
     for i in range(len(avgr_array_array[0,:])):
-        err = np.append(err,np.std(avgr_array_array[:,i])/10)
-
+        err = np.append(err,np.std(avgr_array_array[:,i])/3)
+    # for i in range(len(avgr_array_array[0,:])):
+    #     if i != 2 and i != 6 and i != 12:
+    #         err[i] = 0
+    # print(err)
     avgr_array_array = np.mean(avgr_array_array, axis=0)
-    plt.plot(sigma,avgr_array_array,'-.',label=f"{n}")
-plt.ylabel('r')
-plt.xlabel('Sigma')
+    # plt.plot(sigma,avgr_array_array,'-.',label=f"{n}")
+    plt.errorbar(sigma,avgr_array_array,ls="-.",yerr=err, fmt='o', markersize=2, capsize=5,label=f"{n}")
+    
+plt.ylabel('$r$')
+plt.xlabel('$\sigma$')
 plt.legend(title="N")
 
 x = np.linspace(0,3,10)
@@ -69,5 +76,5 @@ plt.plot(x,y,"k--")
 #np.savetxt("error.csv", err, delimiter=",")
 #np.savetxt(f"avgr_N={n}.csv", n, delimiter=",")
 #np.savetxt("sigma.csv", sigma, delimiter=",")
-plt.savefig('r_vs_sigma.pdf',dpi=1920)
+plt.savefig('r_vs_sigma_temp.pdf')
 plt.show()
